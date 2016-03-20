@@ -10,12 +10,12 @@ defmodule Iamblank.RoomChannel do
   def join("rooms:" <> _private_room_id, _params, socket) do
     # TODO: Find room based on _private_room_id
 
-    comments = [
-      %{id: 1, author: "Kevin", body: "This is a great comment"},
+    messages = [
+      %{id: 1, author: "Kevin", body: "This is a great message"},
       %{id: 2, author: "Lauren", body: "Wow, what a good reply"}
     ]
-    reply = %{comments: comments}
-    socket = assign(socket, :comments, comments)
+    reply = %{messages: messages}
+    socket = assign(socket, :messages, messages)
     {:ok, reply, socket}
   end
 
@@ -29,17 +29,17 @@ defmodule Iamblank.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("new_comment", %{"comment" => comment}, socket) do
-    new_comment = %{id: 3, author: comment["author"], body: comment["body"]}
-    comments = socket.assigns.comments
-    new_comments = List.insert_at(comments, -1, new_comment)
-    socket = assign(socket, :comments, new_comments)
-    broadcast! socket, "new_comment", %{comments: new_comments}
+  def handle_in("new_message", %{"message" => message}, socket) do
+    new_message = %{id: 3, author: message["author"], body: message["body"]}
+    messages = socket.assigns.messages
+    new_messages = List.insert_at(messages, -1, new_message)
+    socket = assign(socket, :messages, new_messages)
+    broadcast! socket, "new_message", %{messages: new_messages}
     {:noreply, socket}
   end
 
-  def handle_out("new_comment", payload, socket) do
-    push socket, "new_comment", payload
+  def handle_out("new_message", payload, socket) do
+    push socket, "new_message", payload
     {:noreply, socket}
   end
 end

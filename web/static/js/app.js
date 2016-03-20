@@ -53,7 +53,7 @@ var IAmBlank = React.createClass({
   },
   render: function() {
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
+      <form className="messageForm" onSubmit={this.handleSubmit}>
         <input
           type="text"
           placeholder="Your name"
@@ -65,9 +65,9 @@ var IAmBlank = React.createClass({
   }
 })
 
-var CommentBox = React.createClass({
-  handleCommentSubmit: function(comment) {
-    this.state.channel.push("new_comment", {comment: comment})
+var MessageBox = React.createClass({
+  handleMessageSubmit: function(message) {
+    this.state.channel.push("new_message", {message: message})
   },
   getInitialState: function() {
     return {data: [], channel: {}};
@@ -79,9 +79,9 @@ var CommentBox = React.createClass({
     this.setState({channel: roomChannel})
     roomChannel.join()
     .receive("ok", resp => {
-      this.setState({data: resp.comments}),
-      this.state.channel.on("new_comment", payload => {
-        this.setState({data: payload.comments})
+      this.setState({data: resp.messages}),
+      this.state.channel.on("new_message", payload => {
+        this.setState({data: payload.messages})
       })
     })
     .receive("error", resp => {
@@ -90,33 +90,33 @@ var CommentBox = React.createClass({
   },
   render: function() {
     return (
-      <div className="commentBox">
-        <h1>Comments</h1>
-        <CommentList data={this.state.data} />
-        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+      <div className="messageBox">
+        <h1>Messages</h1>
+        <MessageList data={this.state.data} />
+        <MessageForm onMessageSubmit={this.handleMessageSubmit} />
       </div>
     );
   }
 });
 
-var CommentList = React.createClass({
+var MessageList = React.createClass({
   render: function() {
-    var commentNodes = this.props.data.map(function(comment) {
+    var messageNodes = this.props.data.map(function(message) {
       return (
-        <Comment author={comment.author}>
-          {comment.body}
-        </Comment>
+        <Message author={message.author}>
+          {message.body}
+        </Message>
       );
     });
     return (
-      <div className="commentList">
-        {commentNodes}
+      <div className="messageList">
+        {messageNodes}
       </div>
     );
   }
 });
 
-var CommentForm = React.createClass({
+var MessageForm = React.createClass({
   getInitialState: function() {
     return {author: '', body: ''};
   },
@@ -133,12 +133,12 @@ var CommentForm = React.createClass({
     if (!body || !author) {
       return;
     }
-    this.props.onCommentSubmit({author: author, body: body});
+    this.props.onMessageSubmit({author: author, body: body});
     this.setState({author: '', body: ''});
   },
   render: function() {
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
+      <form className="messageForm" onSubmit={this.handleSubmit}>
         <input
           type="text"
           placeholder="Your name"
@@ -157,11 +157,11 @@ var CommentForm = React.createClass({
   }
 });
 
-var Comment = React.createClass({
+var Message = React.createClass({
   render: function() {
     return (
-      <div className="comment">
-        <h2 className="commentAuthor">
+      <div className="message">
+        <h2 className="messageAuthor">
           {this.props.author}
         </h2>
         {this.props.children.toString()}
@@ -177,7 +177,7 @@ ReactDOM.render(
 
 lobbyChannel.on("join_room", payload => {
   ReactDOM.render(
-    <CommentBox lobbyChannel={lobbyChannel} room={payload.body} />,
+    <MessageBox lobbyChannel={lobbyChannel} room={payload.body} />,
     document.getElementById('content')
   );
 })
