@@ -22,5 +22,6 @@ defmodule Iamblank.Router do
   scope "/api", Iamblank do
     pipe_through :api
     resources "/users", UserController, except: [:new, :edit]
+    resources "/rooms", RoomController, except: [:new, :edit]
   end
 end
