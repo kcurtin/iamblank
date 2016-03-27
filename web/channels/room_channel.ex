@@ -1,21 +1,24 @@
 defmodule Iamblank.RoomChannel do
   use Phoenix.Channel
 
+  import Ecto.Query
+
+  alias Iamblank.Room
+  alias Iamblank.User
+  alias Iamblank.Message
+
   # intercept ["join_room"]
 
   def join("rooms:lobby", _message, socket) do
     {:ok, socket}
   end
 
-  def join("rooms:" <> _private_room_id, _params, socket) do
-    # TODO: Find room based on _private_room_id
+  def join("rooms:" <> room_name, _params, socket) do
+    room = Iamblank.Repo.one(from r in Room, where: r.name == ^room_name)
+           |> Iamblank.Repo.preload([:messages])
 
-    messages = [
-      %{id: 1, author: "Kevin", body: "This is a great message"},
-      %{id: 2, author: "Lauren", body: "Wow, what a good reply"}
-    ]
-    reply = %{messages: messages}
-    socket = assign(socket, :messages, messages)
+    reply = %{messages: room.messages}
+    socket = assign(socket, :messages, room.messages)
     {:ok, reply, socket}
   end
 

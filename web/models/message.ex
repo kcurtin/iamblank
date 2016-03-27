@@ -2,14 +2,14 @@ defmodule Iamblank.Message do
   use Iamblank.Web, :model
 
   schema "messages" do
-    field :text, :string
+    field :body, :string
     belongs_to :user, Iamblank.User
     belongs_to :room, Iamblank.Room
 
     timestamps
   end
 
-  @required_fields ~w(text)
+  @required_fields ~w(body)
   @optional_fields ~w()
 
   @doc """

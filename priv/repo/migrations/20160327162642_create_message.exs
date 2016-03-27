@@ -3,7 +3,7 @@ defmodule Iamblank.Repo.Migrations.CreateMessage do
 
   def change do
     create table(:messages) do
-      add :text, :text
+      add :body, :text
       add :user_id, references(:users, on_delete: :nothing)
       add :room_id, references(:rooms, on_delete: :nothing)
 

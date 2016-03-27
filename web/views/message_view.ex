@@ -11,7 +11,7 @@ defmodule Iamblank.MessageView do
 
   def render("message.json", %{message: message}) do
     %{id: message.id,
-      text: message.text,
+      body: message.body,
       user_id: message.user_id,
       room_id: message.room_id}
   end

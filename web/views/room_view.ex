@@ -10,7 +10,6 @@ defmodule Iamblank.RoomView do
   end
 
   def render("room.json", %{room: room}) do
-    %{id: room.id,
-      name: room.name}
+    %{id: room.id, name: room.name}
   end
 end

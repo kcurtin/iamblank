@@ -21,9 +21,14 @@ import "phoenix_html"
 // import socket from "./socket"
 import {Socket} from "phoenix"
 
+var user = "user_" + Date.now()
+window.userToken = user;
+
 let socket = new Socket("/socket", {params: {token: window.userToken}})
 
-socket.connect()
+// socket.connect()
+socket.connect({user: user})
+
 
 let lobbyChannel = socket.channel("rooms:lobby", {})
 
@@ -34,12 +39,9 @@ lobbyChannel.join()
 import React from "react"
 import ReactDOM from "react-dom"
 
-var IAmBlank = React.createClass({
+var RoomBox = React.createClass({
   getInitialState: function() {
-    var assignUserToken = function() {
-      return "testing-1"
-    }
-    return {iAm: assignUserToken(), text: ""}
+    return {user: window.userToken, text: ""}
   },
   handleTextChange: function(e) {
     this.setState({text: e.target.value})
@@ -67,7 +69,9 @@ var IAmBlank = React.createClass({
 
 var MessageBox = React.createClass({
   handleMessageSubmit: function(message) {
-    this.state.channel.push("new_message", {message: message})
+    // this.state.channel.push("new_message", {message: message})
+    console.log(message)
+    $.post("/api/messages", {message: message})
   },
   getInitialState: function() {
     return {data: [], channel: {}};
@@ -103,7 +107,7 @@ var MessageList = React.createClass({
   render: function() {
     var messageNodes = this.props.data.map(function(message) {
       return (
-        <Message author={message.author}>
+        <Message user={message.user}>
           {message.body}
         </Message>
       );
@@ -118,23 +122,23 @@ var MessageList = React.createClass({
 
 var MessageForm = React.createClass({
   getInitialState: function() {
-    return {author: '', body: ''};
+    return {user: '', body: ''};
   },
-  handleAuthorChange: function(e) {
-    this.setState({author: e.target.value});
+  handleUserChange: function(e) {
+    this.setState({user: e.target.value});
   },
   handleBodyChange: function(e) {
     this.setState({body: e.target.value});
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var author = this.state.author.trim();
+    var user = this.state.user.trim();
     var body = this.state.body.trim();
-    if (!body || !author) {
+    if (!body || !user) {
       return;
     }
-    this.props.onMessageSubmit({author: author, body: body});
-    this.setState({author: '', body: ''});
+    this.props.onMessageSubmit({user: user, body: body});
+    this.setState({user: '', body: ''});
   },
   render: function() {
     return (
@@ -142,11 +146,11 @@ var MessageForm = React.createClass({
         <input
           type="text"
           placeholder="Your name"
-          value={this.state.author}
-          onChange={this.handleAuthorChange}
+          value={this.state.user}
+          onChange={this.handleUserChange}
         />
         <input
-          type="text"
+          type="body"
           placeholder="Say something...."
           value={this.state.body}
           onChange={this.handleBodyChange}
@@ -161,8 +165,8 @@ var Message = React.createClass({
   render: function() {
     return (
       <div className="message">
-        <h2 className="messageAuthor">
-          {this.props.author}
+        <h2 className="messageUser">
+          {this.props.user}
         </h2>
         {this.props.children.toString()}
       </div>
@@ -171,8 +175,8 @@ var Message = React.createClass({
 });
 
 ReactDOM.render(
-  <IAmBlank/>,
-  document.getElementById("i-am-blank")
+  <RoomBox/>,
+  document.getElementById("room-select")
 )
 
 lobbyChannel.on("join_room", payload => {

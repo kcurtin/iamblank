@@ -2,7 +2,7 @@ defmodule Iamblank.MessageControllerTest do
   use Iamblank.ConnCase
 
   alias Iamblank.Message
-  @valid_attrs %{text: "some content"}
+  @valid_attrs %{body: "some content"}
   @invalid_attrs %{}
 
   setup %{conn: conn} do
@@ -18,7 +18,7 @@ defmodule Iamblank.MessageControllerTest do
     message = Repo.insert! %Message{}
     conn = get conn, message_path(conn, :show, message)
     assert json_response(conn, 200)["data"] == %{"id" => message.id,
-      "text" => message.text,
+      "body" => message.body,
       "user_id" => message.user_id,
       "room_id" => message.room_id}
   end
