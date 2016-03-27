@@ -3,6 +3,7 @@ defmodule Iamblank.Room do
 
   schema "rooms" do
     field :name, :string
+    has_many :messages, Iamblank.Message
 
     timestamps
   end
