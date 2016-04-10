@@ -21,14 +21,9 @@ import "phoenix_html"
 // import socket from "./socket"
 import {Socket} from "phoenix"
 
-var user = "user_" + Date.now()
-window.userToken = user;
+let socket = new Socket("/socket", {params: {user_id: window.userId}})
 
-let socket = new Socket("/socket", {params: {token: window.userToken}})
-
-// socket.connect()
-socket.connect({user: user})
-
+socket.connect()
 
 let lobbyChannel = socket.channel("rooms:lobby", {})
 
@@ -41,7 +36,7 @@ import ReactDOM from "react-dom"
 
 var RoomBox = React.createClass({
   getInitialState: function() {
-    return {user: window.userToken, text: ""}
+    return {text: ""}
   },
   handleTextChange: function(e) {
     this.setState({text: e.target.value})
@@ -70,15 +65,12 @@ var RoomBox = React.createClass({
 var MessageBox = React.createClass({
   handleMessageSubmit: function(message) {
     // this.state.channel.push("new_message", {message: message})
-    console.log(message)
     $.post("/api/messages", {message: message})
   },
   getInitialState: function() {
     return {data: [], channel: {}};
   },
   componentDidMount: function() {
-    // lobbyChannel.leave()
-    // console.log(`${payload.body}`)
     var roomChannel = socket.channel(`rooms:${this.props.room}`, {})
     this.setState({channel: roomChannel})
     roomChannel.join()
@@ -106,6 +98,7 @@ var MessageBox = React.createClass({
 var MessageList = React.createClass({
   render: function() {
     var messageNodes = this.props.data.map(function(message) {
+      debugger
       return (
         <Message user={message.user}>
           {message.body}
@@ -122,33 +115,23 @@ var MessageList = React.createClass({
 
 var MessageForm = React.createClass({
   getInitialState: function() {
-    return {user: '', body: ''};
-  },
-  handleUserChange: function(e) {
-    this.setState({user: e.target.value});
+    return {body: ''};
   },
   handleBodyChange: function(e) {
     this.setState({body: e.target.value});
   },
   handleSubmit: function(e) {
     e.preventDefault();
-    var user = this.state.user.trim();
     var body = this.state.body.trim();
-    if (!body || !user) {
+    if (!body) {
       return;
     }
-    this.props.onMessageSubmit({user: user, body: body});
-    this.setState({user: '', body: ''});
+    this.props.onMessageSubmit({body: body});
+    this.setState({body: ''});
   },
   render: function() {
     return (
       <form className="messageForm" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="Your name"
-          value={this.state.user}
-          onChange={this.handleUserChange}
-        />
         <input
           type="body"
           placeholder="Say something...."

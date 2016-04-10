@@ -1,3 +1,7 @@
+<p>
+  <%= Iamblank.Session.current_user(@conn).username %>
+</p>
+
 <h1>
   I am <span id="room-select"></span>
 </h1>

@@ -8,6 +8,15 @@ defmodule Iamblank.User do
     timestamps
   end
 
+  def create_user do
+    [{one, two}] =
+      :calendar.local_time_to_universal_time_dst(:calendar.local_time())
+    nums = Tuple.to_list(one) ++ Tuple.to_list(two)
+    rand_name = "user_#{Enum.join(nums)}"
+    changeset = changeset(%__MODULE__{}, %{username: rand_name})
+    Iamblank.Repo.insert!(changeset)
+  end
+
   @required_fields ~w(username)
   @optional_fields ~w()
 
