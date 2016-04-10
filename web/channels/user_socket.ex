@@ -3,7 +3,7 @@ defmodule Iamblank.UserSocket do
 
   channel "rooms:*", Iamblank.RoomChannel
 
-  transport :websocket, Phoenix.Transports.WebSocket
+  transport :websocket, Phoenix.Transports.WebSocket, timeout: 45_000
 
   def connect(%{"token" => id}, socket) do
     {:ok, assign(socket, :user_id, id)}
@@ -11,4 +11,5 @@ defmodule Iamblank.UserSocket do
 
   # def id(socket), do: "users_socket:#{socket.assigns.user_id}"
   def id(_socket), do: nil
+
 end
