@@ -2,7 +2,7 @@ defmodule Iamblank.UserControllerTest do
   use Iamblank.ConnCase
 
   alias Iamblank.User
-  alias Iamblank.UserController
+
   @valid_attrs %{username: "some content"}
   @invalid_attrs %{}
 

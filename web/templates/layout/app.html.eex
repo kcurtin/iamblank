@@ -22,7 +22,7 @@
 
     </div> <!-- /container -->
     <script>
-      window.userId = "<%= Iamblank.Session.current_user(@conn).id %>"
+      window.userToken = "<%= Iamblank.Session.current_user(@conn).id %>"
     </script>
     <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>

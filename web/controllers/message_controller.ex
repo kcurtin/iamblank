@@ -11,7 +11,6 @@ defmodule Iamblank.MessageController do
   end
 
   def create(conn, %{"message" => message_params}) do
-    IO.inspect conn
     changeset = Message.changeset(%Message{}, message_params)
 
     case Repo.insert(changeset) do

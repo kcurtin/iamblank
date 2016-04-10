@@ -3,7 +3,7 @@ defmodule Iamblank.MessageTest do
 
   alias Iamblank.Message
 
-  @valid_attrs %{text: "some content"}
+  @valid_attrs %{body: "some content"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do
