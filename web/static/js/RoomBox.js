@@ -32,7 +32,7 @@ var RoomBox = React.createClass({
       <form className="roomForm" onSubmit={this.handleSubmit}>
         <input
           type="text"
-          placeholder="Your name"
+          placeholder="..."
           value={this.state.roomName}
           onChange={this.handleNameChange}
         />

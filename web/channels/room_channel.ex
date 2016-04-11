@@ -12,6 +12,11 @@ defmodule Iamblank.RoomChannel do
         preload: [:messages]
       )
 
+    unless room do
+      {:ok, room} = Repo.insert(Room.changeset(%Room{}, %{name: room_name}))
+      Repo.preload(room, :messages)
+    end
+
     resp = %{
        messages: Phoenix.View.render_many(
          room.messages, Iamblank.MessageView, "message.json"
