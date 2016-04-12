@@ -1,5 +1,5 @@
 <p>
-  <%= Iamblank.Session.current_user(@conn).username %>
+  <%= assigns[:current_user].username %>
 </p>
 
 <h1>

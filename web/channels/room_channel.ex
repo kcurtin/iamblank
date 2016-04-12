@@ -13,8 +13,15 @@ defmodule Iamblank.RoomChannel do
       )
 
     unless room do
-      {:ok, room} = Repo.insert(Room.changeset(%Room{}, %{name: room_name}))
-      Repo.preload(room, :messages)
+      {:ok, room} =
+        Repo.insert(Room.changeset(%Room{}, %{name: room_name}))
+
+      room =
+        Repo.one(
+          from r in Room,
+          where: r.name == ^room.name,
+          preload: [:messages]
+        )
     end
 
     resp = %{
@@ -26,9 +33,17 @@ defmodule Iamblank.RoomChannel do
     {:ok, resp, assign(socket, :room_id, room.id)}
   end
 
-  def handle_in("new_message", %{"message" => message}, socket) do
-    params = Map.put(message, "room_id", socket.assigns.room_id)
-    changeset = Message.changeset(%Message{}, params)
+  def handle_in(event, params, socket) do
+    user = Repo.get(Iamblank.User, socket.assigns.user_id)
+    handle_in(event, params, user, socket)
+  end
+
+  def handle_in("new_message", %{"message" => message}, user, socket) do
+    changeset =
+      user
+      |> build_assoc(:messages, room_id: socket.assigns.room_id)
+      |> Iamblank.Message.changeset(message)
+
 
     case Repo.insert(changeset) do
       {:ok, message} ->

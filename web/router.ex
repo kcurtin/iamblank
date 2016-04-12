@@ -7,10 +7,12 @@ defmodule Iamblank.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug Iamblank.Auth, repo: Iamblank.Repo
   end
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug Iamblank.Auth, repo: Iamblank.Repo
   end
 
   scope "/", Iamblank do
