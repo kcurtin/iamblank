@@ -21,21 +21,24 @@ var RoomBox = React.createClass({
       .receive("ok", resp  => {
         ReactDOM.render(
           <MessageBox roomChannel={roomChannel} messages={resp.messages} />,
-          document.getElementById('content')
+          document.getElementById("messages")
         );
-        this.setState({roomName: ""});
       })
       .receive("error", msg => console.log("Failed to join room", msg))
   },
   render: function() {
     return (
-      <form className="roomForm" onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          placeholder="..."
-          value={this.state.roomName}
-          onChange={this.handleNameChange}
-        />
+      <form onSubmit={this.handleSubmit}>
+        <span className="room-name splash">
+          I am
+          <input
+            type="text"
+            className="mad-lib"
+            value={this.state.roomName}
+            onChange={this.handleNameChange}
+          />
+          .
+        </span>
       </form>
     );
   }

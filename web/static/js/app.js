@@ -7,5 +7,5 @@ import RoomBox from "./RoomBox"
 
 ReactDOM.render(
   <RoomBox socket={socket}/>,
-  document.getElementById("room-select")
+  document.getElementById("room-box")
 )

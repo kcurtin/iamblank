@@ -1,11 +1,5 @@
-<p>
-  <%= assigns[:current_user].username %>
-</p>
-
-<h1>
-  I am <span id="room-select"></span>
-</h1>
-
-<div id="content">
+<div id="room-box" class="row">
 </div>
 
+<div id="messages" class="row">
+</div>

@@ -18,8 +18,7 @@ var MessageBox = React.createClass({
   },
   render: function() {
     return (
-      <div className="messageBox">
-        <h1>Messages</h1>
+      <div className="message-box">
         <MessageList messages={this.state.messages} />
         <MessageForm onMessageSubmit={this.handleMessageSubmit} />
       </div>
@@ -62,14 +61,17 @@ var MessageForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="messageForm" onSubmit={this.handleSubmit}>
-        <input
-          type="body"
-          placeholder="Say something...."
-          value={this.state.body}
-          onChange={this.handleBodyChange}
-        />
-        <input type="submit" value="Post" />
+      <form className="form-inline" onSubmit={this.handleSubmit}>
+        <div className="form-group">
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Say something...."
+            value={this.state.body}
+            onChange={this.handleBodyChange}
+          />
+        </div>
+        <input className="btn btn-default" type="submit" value="Post" />
       </form>
     );
   }
@@ -79,10 +81,9 @@ var Message = React.createClass({
   render: function() {
     return (
       <div className="message">
-        <h2 className="messageUser">
-          {this.props.user}
-        </h2>
-        {this.props.children.toString()}
+        <p>
+          {this.props.children.toString()}
+        </p>
       </div>
     );
   }

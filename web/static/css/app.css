@@ -76,3 +76,43 @@ form.link, form.button {
     border-bottom: 0;
   }
 }
+
+
+input[type="text"], textarea {
+  outline: none; !important;
+  box-shadow:none !important;
+}
+
+#room-box {
+  font-size: 48px;
+  text-align: center;
+}
+
+.splash {
+  font-weight: 300; !important;
+  line-height: 1; !important;
+}
+
+.mad-lib {
+  display: inline-block; !important;
+  border: 0; !important;
+  box-shadow: none; !important;
+  border-bottom: 1px solid #ddd; !important;
+  font-size: 1.0em; !important;
+  text-align: center; !important;
+  font-weight: 300; !important;
+  line-height: 1; !important;
+  background-color: transparent; !important;
+  -webkit-transition: all .3s ease-in-out; !important;
+  -moz-transition: all .3s ease-in-out; !important;
+  transition: all .3s ease-in-out; !important;
+}
+
+.message {
+  padding: 20px;
+  margin: 20px 0;
+  border: 1px solid #eee;
+  border-left-width: 5px;
+  border-left-color: #1b809e;
+  border-radius: 3px;
+}
