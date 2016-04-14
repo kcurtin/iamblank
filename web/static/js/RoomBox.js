@@ -33,6 +33,7 @@ var RoomBox = React.createClass({
           I am
           <input
             type="text"
+            maxLength="17"
             className="mad-lib"
             value={this.state.roomName}
             onChange={this.handleNameChange}

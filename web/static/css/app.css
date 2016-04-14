@@ -113,6 +113,23 @@ input[type="text"], textarea {
   margin: 20px 0;
   border: 1px solid #eee;
   border-left-width: 5px;
-  border-left-color: #1b809e;
   border-radius: 3px;
 }
+
+.navy { border-left-color: #001F3F; }
+.blue { border-left-color: #0074D9; }
+.aqua { border-left-color: #7FDBFF; }
+.teal { border-left-color: #39CCCC; }
+.olive { border-left-color: #3D9970; }
+.green { border-left-color: #2ECC40; }
+.lime { border-left-color: #01FF70; }
+.yellow { border-left-color: #FFDC00; }
+.orange { border-left-color: #FF851B; }
+.red { border-left-color: #FF4136; }
+.fuchsia { border-left-color: #F012BE; }
+.purple { border-left-color: #B10DC9; }
+.maroon { border-left-color: #85144B; }
+.white { border-left-color: #FFFFFF; }
+.silver { border-left-color: #DDDDDD; }
+.gray { border-left-color: #AAAAAA; }
+.black { border-left-color: #111111; }

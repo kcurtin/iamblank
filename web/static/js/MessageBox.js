@@ -30,7 +30,7 @@ var MessageList = React.createClass({
   render: function() {
     var messageNodes = this.props.messages.map(function(message) {
       return (
-        <Message user={message.user}>
+        <Message color={message.color}>
           {message.body}
         </Message>
       );
@@ -80,7 +80,7 @@ var MessageForm = React.createClass({
 var Message = React.createClass({
   render: function() {
     return (
-      <div className="message">
+      <div className={"message " + this.props.color}>
         <p>
           {this.props.children.toString()}
         </p>

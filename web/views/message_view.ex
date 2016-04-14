@@ -13,6 +13,7 @@ defmodule Iamblank.MessageView do
     %{id: message.id,
       body: message.body,
       user_id: message.user_id,
+      color: message.user.color,
       room_id: message.room_id}
   end
 end

@@ -9,7 +9,7 @@ defmodule Iamblank.RoomChannel do
       Repo.one(
         from r in Room,
         where: r.name == ^room_name,
-        preload: [:messages]
+        preload: [messages: :user]
       )
 
     unless room do
@@ -20,7 +20,7 @@ defmodule Iamblank.RoomChannel do
         Repo.one(
           from r in Room,
           where: r.name == ^room.name,
-          preload: [:messages]
+          preload: [messages: :user]
         )
     end
 
@@ -47,6 +47,12 @@ defmodule Iamblank.RoomChannel do
 
     case Repo.insert(changeset) do
       {:ok, message} ->
+        message =
+          Repo.one(
+            from m in Message,
+            where: m.id == ^message.id,
+            preload: [:user]
+          )
         msg = Phoenix.View.render(
           Iamblank.MessageView, "message.json", %{message: message}
         )
