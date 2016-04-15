@@ -44,6 +44,11 @@ var MessageList = React.createClass({
 });
 
 var MessageForm = React.createClass({
+  getDefaultProps: function() {
+    return {
+      color: window.userColor
+    };
+  },
   getInitialState: function() {
     return {body: ''};
   },
@@ -61,17 +66,25 @@ var MessageForm = React.createClass({
   },
   render: function() {
     return (
-      <form className="form-inline" onSubmit={this.handleSubmit}>
-        <div className="form-group">
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Say something...."
-            value={this.state.body}
-            onChange={this.handleBodyChange}
-          />
+      <form className="" onSubmit={this.handleSubmit}>
+        <div className="row">
+          <div className="col-lg-12">
+            <div className="input-group input-group-lg">
+              <input
+                type="text"
+                className="form-control input-lg"
+                placeholder="Say anything...."
+                value={this.state.body}
+                onChange={this.handleBodyChange}
+              />
+              <span className="input-group-btn">
+                <button className={"btn btn-default btn-lg " + this.props.color} type="submit" value="Post">
+                  Send
+                </button>
+              </span>
+            </div>
+          </div>
         </div>
-        <input className="btn btn-default" type="submit" value="Post" />
       </form>
     );
   }
