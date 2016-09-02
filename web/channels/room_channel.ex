@@ -3,6 +3,7 @@ defmodule Iamblank.RoomChannel do
 
   alias Iamblank.Room
   alias Iamblank.Message
+  require IEx
 
   def join("rooms:" <> room_name, _params, socket) do
     room =
@@ -15,13 +16,7 @@ defmodule Iamblank.RoomChannel do
     unless room do
       {:ok, room} =
         Repo.insert(Room.changeset(%Room{}, %{name: room_name}))
-
-      room =
-        Repo.one(
-          from r in Room,
-          where: r.name == ^room.name,
-          preload: [messages: :user]
-        )
+        room = Repo.preload(room, [messages: :user])
     end
 
     resp = %{
@@ -47,12 +42,7 @@ defmodule Iamblank.RoomChannel do
 
     case Repo.insert(changeset) do
       {:ok, message} ->
-        message =
-          Repo.one(
-            from m in Message,
-            where: m.id == ^message.id,
-            preload: [:user]
-          )
+        message = Repo.preload(message, :user)
         msg = Phoenix.View.render(
           Iamblank.MessageView, "message.json", %{message: message}
         )
